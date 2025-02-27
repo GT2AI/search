@@ -151,10 +151,10 @@
 </head>
 <body>
     <header>
-        <nav>
-            <a href="#">Gmail</a>
+        <!-- <nav>
+            <a href="#">Home</a>
             <a href="#">Images</a>
-        </nav>
+        </nav> -->
     </header>
     
     <main>
@@ -184,16 +184,5 @@
             <a href="#">Settings</a>
         </div>
     </footer>
-
-    <script>
-        // Register service worker for PWA functionality
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            }).catch(function(err) {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        }
-    </script>
 </body>
 </html>
