@@ -126,3 +126,57 @@
             // Clean up the Object URL
             URL.revokeObjectURL(resultsUrl);
         });
+
+
+    <!-- Service worker for PWA -->
+    <script>
+        // This is a simple service worker that will cache the app for offline use
+        const swContent = `
+            const CACHE_NAME = 'gt-search-v1';
+            const urlsToCache = [
+                '/',
+                '/index.html',
+                '/results.html'
+            ];
+
+            self.addEventListener('install', function(event) {
+                event.waitUntil(
+                    caches.open(CACHE_NAME)
+                        .then(function(cache) {
+                            return cache.addAll(urlsToCache);
+                        })
+                );
+            });
+
+            self.addEventListener('fetch', function(event) {
+                event.respondWith(
+                    caches.match(event.request)
+                        .then(function(response) {
+                            if (response) {
+                                return response;
+                            }
+                            return fetch(event.request);
+                        })
+                );
+            });
+        `;
+
+        // Create a Blob with the service worker content
+        const blob = new Blob([swContent], { type: 'application/javascript' });
+        
+        // Create an Object URL for the Blob
+        const swUrl = URL.createObjectURL(blob);
+        
+        // Create an invisible link to download the file
+        const link = document.createElement('a');
+        link.href = swUrl;
+        link.download = 'sw.js';
+        
+        // Append the link to the body, click it, and remove it
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up the Object URL
+        URL.revokeObjectURL(swUrl);
+    </script>
