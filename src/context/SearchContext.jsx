@@ -76,8 +76,8 @@ export const SearchProvider = ({ children }) => {
 
     try {
       // Replace with your actual Google Custom Search API key and engine ID
-      const API_KEY = 'YOUR_GOOGLE_API_KEY';
-      const SEARCH_ENGINE_ID = 'YOUR_SEARCH_ENGINE_ID';
+      const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+      const SEARCH_ENGINE_ID = import.meta.env.VITE_SEARCH_ENGINE_ID;
       
       const response = await fetch(
         `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${SEARCH_ENGINE_ID}&q=${encodeURIComponent(query)}`
