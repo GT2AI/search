@@ -7,10 +7,13 @@ import {
   HStack, 
   VStack, 
   Badge,
+  Icon,
+  Flex,
   useColorModeValue
 } from '@chakra-ui/react';
 import { useSearch } from '../context/SearchContext';
 import { formatDistanceToNow } from 'date-fns';
+import { FiClock, FiBarChart2 } from 'react-icons/fi';
 
 const SearchUsageStats = () => {
   const { searchesUsed, searchesLimit, resetTime } = useSearch();
@@ -39,26 +42,36 @@ const SearchUsageStats = () => {
   
   return (
     <Box 
-      p={3} 
-      borderRadius="md" 
+      p={4} 
+      borderRadius="lg" 
       bg={useColorModeValue('white', 'gray.800')} 
-      boxShadow="sm"
+      boxShadow="md"
       borderWidth="1px"
       borderColor={useColorModeValue('gray.200', 'gray.700')}
       maxW="sm"
       mx="auto"
       mt={4}
+      transition="all 0.3s"
+      _hover={{
+        boxShadow: 'lg',
+        borderColor: useColorModeValue('brand.200', 'brand.700')
+      }}
     >
-      <VStack spacing={2} align="stretch">
-        <HStack justify="space-between">
-          <Text fontSize="sm" fontWeight="medium">Search Usage</Text>
+      <VStack spacing={3} align="stretch">
+        <Flex justify="space-between" align="center">
+          <HStack>
+            <Icon as={FiBarChart2} color={`${progressColorScheme}.500`} />
+            <Text fontSize="sm" fontWeight="medium" fontFamily="heading">Search Usage</Text>
+          </HStack>
           <Badge 
             variant="tech" 
             colorScheme={progressColorScheme}
+            fontFamily="mono"
+            px={2}
           >
             {searchesUsed} / {searchesLimit}
           </Badge>
-        </HStack>
+        </Flex>
         
         <Progress 
           value={percentUsed} 
@@ -68,9 +81,17 @@ const SearchUsageStats = () => {
           borderRadius="full"
         />
         
-        <Text fontSize="xs" textAlign="right" color="gray.500">
-          Resets: {timeLeft || 'After first search'}
-        </Text>
+        <Flex 
+          fontSize="xs"
+          color="gray.500"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <Icon as={FiClock} mr={1} />
+          <Text>
+            Resets: {timeLeft || 'After first search'}
+          </Text>
+        </Flex>
       </VStack>
     </Box>
   );

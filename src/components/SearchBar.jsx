@@ -6,7 +6,9 @@ import {
   InputRightElement, 
   IconButton,
   Box,
-  Heading
+  Heading,
+  Text,
+  useColorMode
 } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 import { useSearch } from '../context/SearchContext';
@@ -16,6 +18,7 @@ const SearchBar = ({ showLogo = true, size = 'lg', width = 'full' }) => {
   const { handleSearch } = useSearch();
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const { colorMode } = useColorMode();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -28,15 +31,32 @@ const SearchBar = ({ showLogo = true, size = 'lg', width = 'full' }) => {
   return (
     <Box as="form" onSubmit={onSubmit} width={width} mx="auto">
       {showLogo && (
-        <Heading 
-          textAlign="center" 
-          mb={4} 
-          fontFamily="mono" 
-          color="gtTech"
-        >
-          GT<sup>Search</sup>
-        </Heading>
+        <Box textAlign="center" mb={4}>
+          <Heading 
+            fontFamily="heading" 
+            fontWeight="bold" 
+            fontSize="3xl"
+            bgGradient={colorMode === 'dark' 
+              ? 'linear(to-r, brand.200, brand.400)'
+              : 'linear(to-r, brand.500, brand.700)'
+            }
+            bgClip="text"
+            letterSpacing="tight"
+            className="hover-scale"
+            display="inline-block"
+          >
+            GT<sup>Search</sup>
+          </Heading>
+          <Text 
+            fontSize="sm" 
+            color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+            mt={1}
+          >
+            Semantic search for Georgia Tech resources
+          </Text>
+        </Box>
       )}
+      
       <InputGroup size={size}>
         <Input
           placeholder="Search Georgia Tech..."
@@ -45,8 +65,14 @@ const SearchBar = ({ showLogo = true, size = 'lg', width = 'full' }) => {
           borderRadius="md"
           focusBorderColor="brand.500"
           variant="filled"
-          _hover={{ bg: 'whiteAlpha.300' }}
-          _focus={{ bg: 'whiteAlpha.400' }}
+          fontFamily="body"
+          _hover={{ bg: colorMode === 'dark' ? 'whiteAlpha.200' : 'gray.100' }}
+          _focus={{ 
+            bg: colorMode === 'dark' ? 'whiteAlpha.300' : 'white',
+            boxShadow: 'outline'
+          }}
+          boxShadow="sm"
+          transition="all 0.2s"
         />
         <InputRightElement>
           <IconButton
@@ -56,6 +82,9 @@ const SearchBar = ({ showLogo = true, size = 'lg', width = 'full' }) => {
             type="submit"
             variant="ghost"
             colorScheme="brand"
+            _hover={{
+              bg: colorMode === 'dark' ? 'whiteAlpha.200' : 'brand.50'
+            }}
           />
         </InputRightElement>
       </InputGroup>
